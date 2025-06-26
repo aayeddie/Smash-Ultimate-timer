@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Super Smash Countdown</title>
+  <style>
+    @font-face {
+      font-family: 'SuperSmash';
+      src: url('SuperSmash.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+    }
+
+    .stopwatch {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 0.5vw;
+      font-family: 'SuperSmash', sans-serif;
+      padding: 1.2vw;
+      color: black;
+    }
+
+    .unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .digits {
+      font-size: 9.72vw;
+      font-weight: bold;
+      line-height: 1;
+      display: flex;
+      gap: 0.01em;
+      letter-spacing: -0.05em;
+      margin-bottom: -2vw;
+      text-shadow:
+        1px 1px 0 #fff,
+        2px 2px 0 #fff,
+        3px 3px 0 #fff,
+        4px 4px 0 #fff;
+    }
+
+    .digits span {
+      display: inline-block;
+    }
+
+    .label {
+      margin-top: 0;
+      font-size: 1.9vw;
+      font-weight: bold;
+      letter-spacing: -0.07em;
+      text-shadow:
+        1px 1px 0 #fff,
+        2px 2px 0 #fff,
+        3px 3px 0 #fff,
+        4px 4px 0 #fff;
+      transform: scaleX(0.84);
+      transform-origin: center;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .label span {
+      display: inline-block;
+    }
+
+    @media (max-width: 600px) {
+      .digits {
+        font-size: 11.5vw;
+      }
+      .label {
+        font-size: 3.8vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="stopwatch">
+    <div class="unit">
+      <div class="digits"><span id="h0">0</span><span id="h1">0</span></div>
+      <div class="label">HOURS</div>
+    </div>
+    <div class="unit">
+      <div class="digits"><span id="m0">0</span><span id="m1">0</span></div>
+      <div class="label">MINUTES</div>
+    </div>
+    <div class="unit">
+      <div class="digits"><span id="s0">0</span><span id="s1">0</span></div>
+      <div class="label">SECONDS</div>
+    </div>
+  </div>
+
+  <script>
+    window.onload = () => {
+      let total = 0;
+      setInterval(() => {
+        total++;
+        const h = String(Math.floor(total / 3600)).padStart(2, '0'),
+              m = String(Math.floor((total % 3600) / 60)).padStart(2, '0'),
+              s = String(total % 60).padStart(2, '0');
+        document.getElementById('h0').textContent = h[0];
+        document.getElementById('h1').textContent = h[1];
+        document.getElementById('m0').textContent = m[0];
+        document.getElementById('m1').textContent = m[1];
+        document.getElementById('s0').textContent = s[0];
+        document.getElementById('s1').textContent = s[1];
+      }, 1000);
+    };
+  </script>
+</body>
+</html>
