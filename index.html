@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Super Smash Countdown</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Super Smash Countdown - No White</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     @font-face {
       font-family: 'SuperSmash';
       src: url('SuperSmash41.woff') format('woff');
-      font-weight: 900; /* Ultra bold */
+      font-weight: 900;
       font-style: normal;
     }
 
@@ -27,6 +26,7 @@
       font-family: 'SuperSmash', sans-serif;
       padding: 1.2vw;
       color: black;
+      /* no background, fully transparent */
     }
 
     .unit {
@@ -39,9 +39,9 @@
       display: flex;
       gap: 0.01em;
       font-size: 9.72vw;
-      font-weight: 900; /* Ultra bold */
+      font-weight: 900;
       line-height: 1;
-      /* No shadows */
+      /* NO text-shadow or anything */
     }
 
     .digit {
@@ -52,13 +52,14 @@
     .label {
       margin-top: 0;
       font-size: 1.9vw;
-      font-weight: 900; /* Ultra bold */
+      font-weight: 900;
       letter-spacing: -0.07em;
       transform: scaleX(0.84);
       transform-origin: center;
       text-transform: uppercase;
       text-align: center;
-      /* No shadows */
+      /* NO text-shadow */
+      color: black;
     }
 
     @media (max-width: 600px) {
