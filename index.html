@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Super Smash Countdown - No White</title>
+  <title>Super Smash Countdown with Tick Flash</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     @font-face {
@@ -26,7 +26,6 @@
       font-family: 'SuperSmash', sans-serif;
       padding: 1.2vw;
       color: black;
-      /* no background, fully transparent */
     }
 
     .unit {
@@ -41,12 +40,13 @@
       font-size: 9.72vw;
       font-weight: 900;
       line-height: 1;
-      /* NO text-shadow or anything */
     }
 
     .digit {
       display: inline-block;
       transition: transform 0.3s ease;
+      /* no shadows or outlines */
+      will-change: filter;
     }
 
     .label {
@@ -58,7 +58,6 @@
       transform-origin: center;
       text-transform: uppercase;
       text-align: center;
-      /* NO text-shadow */
       color: black;
     }
 
@@ -70,6 +69,23 @@
       .label {
         font-size: 3.8vw;
       }
+    }
+
+    /* Tick flash animation */
+    @keyframes tickFlash {
+      0% {
+        filter: drop-shadow(0 0 6px #ff5500) drop-shadow(0 0 15px #ff9900);
+      }
+      50% {
+        filter: drop-shadow(0 0 12px #66ccff) drop-shadow(0 0 20px #99ddff);
+      }
+      100% {
+        filter: none;
+      }
+    }
+
+    .tick-flash {
+      animation: tickFlash 0.5s ease forwards;
     }
   </style>
 </head>
@@ -115,6 +131,20 @@
     window.onload = () => {
       applyStretch();
 
+      const prev = {
+        h0: null, h1: null,
+        m0: null, m1: null,
+        s0: null, s1: null,
+      };
+
+      function flashDigit(id) {
+        const el = document.getElementById(id);
+        el.classList.remove('tick-flash'); // reset animation
+        // Trigger reflow to restart animation
+        void el.offsetWidth;
+        el.classList.add('tick-flash');
+      }
+
       let total = 0;
       setInterval(() => {
         total++;
@@ -122,12 +152,16 @@
               m = String(Math.floor((total % 3600) / 60)).padStart(2, '0'),
               s = String(total % 60).padStart(2, '0');
 
-        document.getElementById('h0').textContent = h[0];
-        document.getElementById('h1').textContent = h[1];
-        document.getElementById('m0').textContent = m[0];
-        document.getElementById('m1').textContent = m[1];
-        document.getElementById('s0').textContent = s[0];
-        document.getElementById('s1').textContent = s[1];
+        [['h0', h[0]], ['h1', h[1]],
+         ['m0', m[0]], ['m1', m[1]],
+         ['s0', s[0]], ['s1', s[1]]].forEach(([id, val]) => {
+          const el = document.getElementById(id);
+          if (prev[id] !== val) {
+            el.textContent = val;
+            flashDigit(id);
+            prev[id] = val;
+          }
+        });
       }, 1000);
     };
   </script>
