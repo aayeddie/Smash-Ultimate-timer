@@ -16,6 +16,35 @@
       margin: 0;
       padding: 0;
       background: transparent;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .center-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      position: relative;
+    }
+
+    .background-cloud {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60vw;
+      height: 26vw;
+      background: radial-gradient(ellipse at center,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(240, 240, 240, 0.6) 35%,
+        rgba(200, 200, 200, 0.3) 60%,
+        rgba(150, 150, 150, 0.08) 80%,
+        rgba(255, 255, 255, 0) 100%);
+      border-radius: 50% / 40%;
+      box-shadow: 0 0 3vw rgba(255, 255, 255, 0.3);
+      z-index: 0;
+      pointer-events: none;
     }
 
     .stopwatch {
@@ -26,6 +55,8 @@
       font-family: 'SuperSmash', sans-serif;
       padding: 1.2vw;
       color: black;
+      position: relative;
+      z-index: 1;
     }
 
     .unit {
@@ -45,7 +76,6 @@
     .digit {
       display: inline-block;
       transition: transform 0.3s ease;
-      /* no shadows or outlines */
       will-change: filter;
     }
 
@@ -71,7 +101,6 @@
       }
     }
 
-    /* Tick flash animation */
     @keyframes tickFlash {
       0% {
         filter: drop-shadow(0 0 6px #ff5500) drop-shadow(0 0 15px #ff9900);
@@ -90,27 +119,31 @@
   </style>
 </head>
 <body>
-  <div class="stopwatch">
-    <div class="unit">
-      <div class="digits">
-        <span class="digit" id="h0" data-global="-1.8">0</span>
-        <span class="digit" id="h1" data-global="-1.1">0</span>
+  <div class="center-wrapper">
+    <div class="background-cloud"></div>
+
+    <div class="stopwatch">
+      <div class="unit">
+        <div class="digits">
+          <span class="digit" id="h0" data-global="-1.8">0</span>
+          <span class="digit" id="h1" data-global="-1.1">0</span>
+        </div>
+        <div class="label">HOURS</div>
       </div>
-      <div class="label">HOURS</div>
-    </div>
-    <div class="unit">
-      <div class="digits">
-        <span class="digit" id="m0" data-global="-0.5">0</span>
-        <span class="digit" id="m1" data-global="0.5">0</span>
+      <div class="unit">
+        <div class="digits">
+          <span class="digit" id="m0" data-global="-0.5">0</span>
+          <span class="digit" id="m1" data-global="0.5">0</span>
+        </div>
+        <div class="label">MINUTES</div>
       </div>
-      <div class="label">MINUTES</div>
-    </div>
-    <div class="unit">
-      <div class="digits">
-        <span class="digit" id="s0" data-global="1.1">0</span>
-        <span class="digit" id="s1" data-global="1.4">0</span>
+      <div class="unit">
+        <div class="digits">
+          <span class="digit" id="s0" data-global="1.1">0</span>
+          <span class="digit" id="s1" data-global="1.4">0</span>
+        </div>
+        <div class="label">SECONDS</div>
       </div>
-      <div class="label">SECONDS</div>
     </div>
   </div>
 
@@ -139,8 +172,7 @@
 
       function flashDigit(id) {
         const el = document.getElementById(id);
-        el.classList.remove('tick-flash'); // reset animation
-        // Trigger reflow to restart animation
+        el.classList.remove('tick-flash');
         void el.offsetWidth;
         el.classList.add('tick-flash');
       }
